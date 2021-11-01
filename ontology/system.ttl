@@ -91,6 +91,12 @@ In DUL, we adopt pattern #1 for partOf, and pattern #2 for properPartOf, which s
 Subproperties and restrictions can be used to specialize hasPart for objects, events, etc.""" .
 
 
+###  https://w3id.org/la3d/ont/system#is_described_by
+:is_described_by rdf:type owl:ObjectProperty ;
+                 <http://purl.org/dc/elements/1.1/creator> <http://orcid.org/0000-0003-4091-6059> ;
+                 <http://purl.org/dc/elements/1.1/date> "2021-10-29T20:48:27Z"^^xsd:dateTime .
+
+
 #################################################################
 #    Classes
 #################################################################
@@ -103,9 +109,34 @@ Subproperties and restrictions can be used to specialize hasPart for objects, ev
            rdfs:label "Component" .
 
 
+###  https://w3id.org/la3d/ont/system#Description
+:Description rdf:type owl:Class ;
+             rdfs:subClassOf :Social_Object ;
+             <http://purl.org/dc/elements/1.1/creator> <http://orcid.org/0000-0003-4091-6059> ;
+             <http://purl.org/dc/elements/1.1/date> "2021-10-29T20:45:40Z"^^xsd:dateTime ;
+             skos:definition """A Description is a SocialObject that represents a conceptualization. 
+It can be thought also as a 'descriptive context' that uses or defines concepts in order to create a view on a 'relational context' (cf. Situation) out of a set of data or observations. 
+For example, a Plan is a Description of some actions to be executed by agents in a certain way, with certain parameters; a Diagnosis is a Description that provides an interpretation for a set of observed entities, etc.
+Descriptions 'define' or 'use' concepts, and can be 'satisfied' by situations.""" .
+
+
+###  https://w3id.org/la3d/ont/system#Design
+:Design rdf:type owl:Class ;
+        rdfs:subClassOf :Description ;
+        <http://purl.org/dc/elements/1.1/creator> <http://orcid.org/0000-0003-4091-6059> ;
+        <http://purl.org/dc/elements/1.1/date> "2021-10-29T20:45:46Z"^^xsd:dateTime ;
+        skos:definition """A Description of the Situation, in terms of structure and function, held by an Entity for some reason.
+A design is usually accompanied by the rationales behind the construction of the designed Entity (i.e. of the reasons why a design is claimed to be as such). For example, the actual design (a Situation) of a car or of a law is based on both the specification (a Description) of the structure, and the rationales used to construct cars or laws.
+While designs typically describe entities to be constructed, they can also be used to describe 'refunctionalized' entities, or to hypothesize unknown functions. For example, a cradle can be refunctionalized as a flowerpot based on a certain home design.""" .
+
+
 ###  https://w3id.org/la3d/ont/system#Designed_Artifact
 :Designed_Artifact rdf:type owl:Class ;
-                   rdfs:subClassOf :Physical_Artifact ;
+                   rdfs:subClassOf :Physical_Artifact ,
+                                   [ rdf:type owl:Restriction ;
+                                     owl:onProperty :is_described_by ;
+                                     owl:someValuesFrom :Design
+                                   ] ;
                    <http://purl.org/dc/elements/1.1/creator> <http://orcid.org/0000-0003-4091-6059> ;
                    <http://purl.org/dc/elements/1.1/date> "2021-10-29T18:48:54Z"^^xsd:dateTime ;
                    cpannotationschema:extractedFrom <http://www.ontologydesignpatterns.org/ont/dul/DUL.owl> ;
@@ -166,6 +197,16 @@ Immaterial (non-physical) artifacts (e.g. texts, ideas, cultural movements, corp
                  cpannotationschema:extractedFrom <http://www.ontologydesignpatterns.org/ont/dul/DUL.owl> ;
                  rdfs:label "Physical Object" ;
                  skos:definition "Any Object that has a proper space region. The prototypical physical object has also an associated mass, but the nature of its mass can greatly vary based on the epistemological status of the object (scientifically measured, subjectively possible, imaginary)." .
+
+
+###  https://w3id.org/la3d/ont/system#Social_Object
+:Social_Object rdf:type owl:Class ;
+               rdfs:subClassOf :Object ;
+               <http://purl.org/dc/elements/1.1/creator> <http://orcid.org/0000-0003-4091-6059> ;
+               <http://purl.org/dc/elements/1.1/date> "2021-10-29T20:45:24Z"^^xsd:dateTime ;
+               skos:definition """Any Object that exists only within some communication Event, in which at least one PhysicalObject participates in. 
+In other words, all objects that have been or are created in the process of social communication: for the sake of communication (InformationObject), for incorporating new individuals (SocialAgent, Place), for contextualizing or intepreting existing entities (Description, Concept), or for collecting existing entities (Collection).
+Being dependent on communication, all social objects need to be expressed by some information object (information objects are self-expressing).""" .
 
 
 ###  Generated by the OWL API (version 4.5.9.2019-02-01T07:24:44Z) https://github.com/owlcs/owlapi
